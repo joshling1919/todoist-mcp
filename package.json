@@ -1,0 +1,33 @@
+{
+  "name": "todoist-mcp-server",
+  "version": "1.0.0",
+  "description": "Todoist MCP Server for task management",
+  "main": "dist/server.js",
+  "type": "module",
+  "bin": {
+    "todoist-mcp-server": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x dist/*.js",
+    "start": "node dist/server.js",
+    "dev": "tsc && node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@doist/todoist-api-typescript": "^3.0.3",
+    "dotenv": "^16.3.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "server",
+    "todoist",
+    "tasks"
+  ],
+  "author": "",
+  "license": "MIT"
+}
