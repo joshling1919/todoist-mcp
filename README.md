@@ -20,25 +20,9 @@ A Model Context Protocol (MCP) server that integrates with Todoist to provide ta
    npm install
    ```
 
-3. **Configure environment**:
-
-   ```bash
-   # Copy the example file
-   cp env.example .env
-
-   # Edit .env and add your actual API token
-   # TODOIST_API_TOKEN=your_actual_token_here
-   ```
-
-4. **Build the project**:
-
+3. **Build the project**:
    ```bash
    npm run build
-   ```
-
-5. **Run the server**:
-   ```bash
-   npm start
    ```
 
 ## Usage
@@ -60,7 +44,9 @@ The server exposes one tool:
 
 ## Configuration
 
-For use with Claude Desktop, add to your config:
+### Claude Desktop
+
+Add this to your Claude Desktop config file:
 
 ```json
 {
@@ -74,17 +60,4 @@ For use with Claude Desktop, add to your config:
     }
   }
 }
-```
-
-**Note**: When using with Claude Desktop, you can either:
-
-- Set the token in the Claude config (as shown above), OR
-- Create a `.env` file in the server directory (the server will automatically load it)
-
-## Development
-
-For development with automatic rebuilding:
-
-```bash
-npm run dev
 ```

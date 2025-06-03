@@ -3,18 +3,14 @@
 import { TodoistApi } from "@doist/todoist-api-typescript";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import dotenv from "dotenv";
 import { z } from "zod";
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Environment validation
 const TODOIST_API_TOKEN = process.env.TODOIST_API_TOKEN;
 if (!TODOIST_API_TOKEN) {
   console.error("Error: TODOIST_API_TOKEN environment variable is required");
   console.error(
-    "Please set it in your .env file or as an environment variable"
+    "Set this in your Claude Desktop config or export it locally for testing"
   );
   process.exit(1);
 }

@@ -15,7 +15,6 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@doist/todoist-api-typescript": "^3.0.3",
-    "dotenv": "^16.3.0",
     "zod": "^3.22.0"
   },
   "devDependencies": {
