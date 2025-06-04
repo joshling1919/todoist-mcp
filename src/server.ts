@@ -28,15 +28,19 @@ const server = new McpServer({
 server.tool(
   "todoist_get_tasks_by_filter",
   {
-    filter: z
+    query: z
       .string()
-      .describe("Filter expression (e.g., 'today', 'overdue', 'p1', '7 days')"),
+      .min(1)
+      .max(1024)
+      .describe(
+        "Todoist filter query. SYNTAX: Use & (AND), | (OR), ! (NOT), () for grouping, , for separate lists. EXAMPLES: Basic: 'today', 'overdue', 'p1', '7 days', 'no date'. Projects: '#Work', '#Personal'. Labels: '@urgent', '@waiting', '@urgent*' (wildcard). Search: 'search: meeting', 'search: email'. Dates: 'date: Jan 3', 'date before: May 5', 'date after: tomorrow'. Assignments: 'assigned to: me', 'assigned by: John'. Complex: '(today | overdue) & #Work', 'today & @urgent & !subtask', 'p1 & overdue, p4 & today'. Priority: 'p1' (urgent), 'p2' (high), 'p3' (medium), 'p4' (low). Multiple filters (comma-separated) are NOT supported."
+      ),
     lang: z.string().optional().describe("Language for filter expression"),
   },
-  async ({ filter, lang }) => {
+  async ({ query, lang }) => {
     try {
       const tasks = await todoistClient.getTasks({
-        filter: filter,
+        filter: query,
         lang: lang,
       });
 
@@ -45,7 +49,7 @@ server.tool(
           content: [
             {
               type: "text",
-              text: `No tasks found matching filter: "${filter}"`,
+              text: `No tasks found matching filter: "${query}"`,
             },
           ],
         };
@@ -86,7 +90,7 @@ server.tool(
         content: [
           {
             type: "text",
-            text: `Found ${tasks.length} tasks with filter "${filter}":\n\n${formattedTasks}`,
+            text: `Found ${tasks.length} tasks with filter "${query}":\n\n${formattedTasks}`,
           },
         ],
       };
