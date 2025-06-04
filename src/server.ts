@@ -19,10 +19,16 @@ if (!TODOIST_API_TOKEN) {
 const todoistClient = new TodoistApi(TODOIST_API_TOKEN);
 
 // Create an MCP server
-const server = new McpServer({
-  name: "todoist-mcp",
-  version: "1.0.0",
-});
+const server = new McpServer(
+  {
+    name: "Personal Tools, Resources, Prompts",
+    version: "1.0.0",
+  },
+  {
+    instructions:
+      "This is a collection of a person's personal set of tools, resources, and prompts for enhancing productivity and learning.",
+  }
+);
 
 // Add a tool to get tasks by filter
 server.tool(
@@ -110,8 +116,39 @@ server.tool(
   }
 );
 
+// Add tutoring prompt for checks for understanding
+server.prompt(
+  "set_tutoring_behavior",
+  "Sets the behavior for the AI when entering a tutoring session. Invoke this at the start of tutoring.",
+  () => ({
+    messages: [
+      {
+        role: "user" as const,
+        content: {
+          type: "text",
+          text: `We are now entering tutoring mode. Please adopt the following behavior for our interaction:
+
+1.  When I express confusion about a topic, your primary goal is to help me understand it through guided discovery.
+2. First give a clear explanation with at least 2 examples.
+3.  Then, ask me 3 checks for understanding one at a time regarding the specific area of confusion so I get direct practice with the concept.
+4.  IMPORTANT: Do NOT provide the answer directly to your questions. Instead, wait for my response one at a time.
+5.  Focus on helping me build my own understanding rather than directly explaining concepts, unless I explicitly ask for an explanation after attempting to answer.
+For example, if I say "I don't understand logarithms", you should provide an explanation and 2 worked examples. Then ask the first check for understanding, wait for my response, and then ask the next check for understanding, etc.`,
+        },
+      },
+      {
+        role: "assistant" as const,
+        content: {
+          type: "text",
+          text: "Understood! I'm ready to help you learn. When you're ready, please tell me what topic you'd like to focus on, and I'll start by asking you a question to check your understanding.",
+        },
+      },
+    ],
+  })
+);
+
 // Start the server
 const transport = new StdioServerTransport();
 await server.connect(transport);
 
-console.error("Todoist MCP Server running on stdio");
+console.error("Personal Tools, Resources, Prompts MCP Server running on stdio");
